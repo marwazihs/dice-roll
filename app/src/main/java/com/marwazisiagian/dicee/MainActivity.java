@@ -12,17 +12,27 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int mIndexLeftImage = 5;
+    private int mIndexRightImage = 5;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
+        if (savedInstanceState != null) {
+
+            // load from the InstanceState
+            mIndexLeftImage = savedInstanceState.getInt("index_leftImage");
+            mIndexRightImage= savedInstanceState.getInt("index_rightImage");
+        }
+
         Button rollButton = (Button) findViewById(R.id.rollbutton);
 
         final ImageView leftDice = (ImageView) findViewById(R.id.image_leftDice);
-
         final ImageView rightDice = (ImageView) findViewById(R.id.image_RightDice);
+
 
         final int[] diceArray = {
                 R.drawable.dice1,
@@ -33,28 +43,35 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.dice6
         };
 
+        // change the image according to the new index
+        leftDice.setImageResource(diceArray[mIndexLeftImage]);
+        rightDice.setImageResource(diceArray[mIndexRightImage]);
 
         rollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Log.d("Dicee","...button lagi dipencet");
-
                 Random randomNumberGenerator = new Random();
 
-                int number = randomNumberGenerator.nextInt(6);
+                //generate the random number for the new index
+                mIndexLeftImage = randomNumberGenerator.nextInt(6);
+                mIndexRightImage = randomNumberGenerator.nextInt(6);
 
-                //Log.d("Dicee", "Random Number:" + number);
 
-                //change the image of the left dice
-                leftDice.setImageResource(diceArray[randomNumberGenerator.nextInt(6)]);
-
-                //change the image of the right dice
-                rightDice.setImageResource(diceArray[randomNumberGenerator.nextInt(6)]);
-
+                // change the image according to the new index
+                leftDice.setImageResource(diceArray[mIndexLeftImage]);
+                rightDice.setImageResource(diceArray[mIndexRightImage]);
 
             }
         });
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("index_leftImage",mIndexLeftImage);
+        outState.putInt("index_rightImage", mIndexRightImage);
     }
 }
