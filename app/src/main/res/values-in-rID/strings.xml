@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dicee</string>
+    <string name="roll_button_text">Lempar Dadu</string>
+    <string name="description_button">Mengacak Dadu</string>
+</resources>
